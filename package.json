@@ -1,0 +1,28 @@
+{
+  "name": "mu-realtime-quizzer",
+  "version": "1.0.0",
+  "description": "A realtime in-class quick quiz",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jedsmithobd/mu-realtime-quizzer.git"
+  },
+  "keywords": [
+    "quiz",
+    "realtime",
+    "micro"
+  ],
+  "author": "Jedediah Smith",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jedsmithobd/mu-realtime-quizzer/issues"
+  },
+  "homepage": "https://github.com/jedsmithobd/mu-realtime-quizzer#readme",
+  "dependencies": {
+    "fwsp-hydra-express": "^0.14.4",
+    "primus.io": "^4.0.0"
+  }
+}

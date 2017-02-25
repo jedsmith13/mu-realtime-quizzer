@@ -1,0 +1,19 @@
+{
+    "hydraExpress": {
+        "hydra": {
+            "serviceName": "quizzer",
+            "serviceDescription": "Mu Realtime Quizzer",
+            "serviceIP": "",
+            "servicePort": 0,
+            "serviceType": "class",
+            "redis": {
+                "url": "redis",
+                "port": 0,
+                "db": 0
+            }
+        }
+    },
+    "primus": {
+        "transformer": "websockets"
+    }
+}

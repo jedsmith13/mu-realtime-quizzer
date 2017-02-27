@@ -1,18 +1,60 @@
 <!doctype html>
 <html lang="en">
+
 <head>
   <meta charset="utf-8">
   <title>Echo</title>
   <link rel="stylesheet" href="//cdn.jsdelivr.net/normalize/3.0.1/normalize.min.css">
-  <script src="/js/primus.js"></script>
-  <script src="/quizzer/js/primus.js"></script>
   <style>
-    body { padding: 50px }
-    #output { width: 450px; height: 200px; display: block; border: 0; outline: 0; margin: 0 0 4px }
-    #echo { width: 400px; height: 25px; font-size: 16px }
-    button { border-radius: 5px; border: 0; background: #444; color: #FFF; padding: 6px }
+    body {
+      padding: 50px
+    }
+    
+    #output {
+      width: 450px;
+      height: 200px;
+      display: block;
+      border: 0;
+      outline: 0;
+      margin: 0 0 4px
+    }
+    
+    #echo {
+      width: 400px;
+      height: 25px;
+      font-size: 16px
+    }
+    
+    button {
+      border-radius: 5px;
+      border: 0;
+      background: #444;
+      color: #FFF;
+      padding: 6px
+    }
   </style>
+  <script>
+    var uuid = function() {
+	var ret = '', value;
+	for (var i = 0; i < 32; i++) {
+		value = Math.random() * 16 | 0;
+		// Insert the hypens
+		if (i > 4 && i < 21 && ! (i % 4)) {
+			ret += '-';
+		}
+		// Add the next random character
+		ret += (
+			(i === 12) ? 4 : (
+				(i === 16) ? (value & 3 | 8) : value
+			)
+		).toString(16);
+	}
+	return ret;
+};
+
+  </script>
 </head>
+
 <body>
   <form id="write">
     <textarea id="output" readonly></textarea>
@@ -20,20 +62,49 @@
     <button type="submit">echo</button>
   </form>
   <script>
-    var output = document.getElementById('output')
-      , echo = document.getElementById('echo');
+    var output = document.getElementById('output'),
+      echo = document.getElementById('echo');
 
     //
     // Tell primus to create a new connect to the current domain/port/protocol
     //
-    var primus = new Primus();
 
+    var initialMessage;
     //
-    // Listen for incoming data and log it in our textarea.
+    // Listen for first incoming data and log it in our textarea.
     //
-    primus.on('data', function received(data) {
-      output.value += data +'\n';
+    // Let us open a web socket
+    var ws = new WebSocket("wss://mu-auth-adventure-jedsmithobd.c9users.io");
+
+    ws.addEventListener('open', function (event) {
+      // Web Socket is connected, send data using send()
+
+      ws.send(JSON.stringify({
+        body: {},
+        to: "quizzer:/",
+        mid: uuid(),
+        from: 'tester:/',
+        timestamp: new Date(),
+        version: "UMF/1.4.3"
+      }));
     });
+
+    ws.onmessage = function(evt) {
+      var data = JSON.parse(evt.data);
+      console.log('Message', data);
+      if (data.bdy.id) {
+        console.log('Initial');
+        initialMessage = data;
+      }
+      console.log('Body', data.bdy);
+      if (data.bdy.message) {
+        output.value += data.bdy.message + '\n';
+      }
+    };
+
+    ws.onclose = function() {
+      // websocket is closed.
+    };
 
     //
     // Listen for submits of the form so we can send the message to the server.
@@ -44,9 +115,17 @@
       //
       // Write the typed message.
       //
-      primus.write(echo.value);
-      echo.value = '';
+      ws.send(JSON.stringify({
+        bdy: {message: echo.value},
+        to: "quizzer:/",
+        mid: uuid(),
+        frm: 'client:/',
+        ts: new Date(),
+        typ: "message",
+        ver: "UMF/1.4.3"
+      }));
     };
   </script>
 </body>
+
 </html>

@@ -1,19 +1,30 @@
 {
-    "hydraExpress": {
+    "hydraExpressQuiz": {
         "hydra": {
-            "serviceName": "quizzer",
-            "serviceDescription": "Mu Realtime Quizzer",
+            "serviceName": "quiz",
+            "serviceDescription": "Mu Realtime Quizzer - Quiz",
             "serviceIP": "",
-            "servicePort": 0,
+            "servicePort": 3113,
             "serviceType": "class",
             "redis": {
                 "url": "redis",
-                "port": 0,
+                "port": 6379,
                 "db": 0
             }
         }
     },
-    "primus": {
-        "transformer": "websockets"
+    "hydraExpressClass": {
+        "hydra": {
+            "serviceName": "class",
+            "serviceDescription": "Mu Realtime Quizzer - Class",
+            "serviceIP": "",
+            "servicePort": 3114,
+            "serviceType": "class",
+            "redis": {
+                "url": "redis",
+                "port": 6379,
+                "db": 0
+            }
+        }
     }
 }

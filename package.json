@@ -22,8 +22,9 @@
   },
   "homepage": "https://github.com/jedsmithobd/mu-realtime-quizzer#readme",
   "dependencies": {
-    "fwsp-hydra-express": "^0.14.4",
+    "fwsp-hydra-express": "^0.14.6",
+    "shortid": "^2.2.6",
     "uuid-v4": "^0.1.0",
-    "ws": "^2.1.0"
+    "ws": "^2.2.0"
   }
 }

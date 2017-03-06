@@ -69,7 +69,7 @@
     // Tell primus to create a new connect to the current domain/port/protocol
     //
 
-    var initialMessage;
+    var clientId;
     //
     // Listen for first incoming data and log it in our textarea.
     //
@@ -94,7 +94,7 @@
       console.log('Message', data);
       if (data.bdy.id) {
         console.log('Initial');
-        initialMessage = data;
+        clientId = data.bdy.id;
       }
       console.log('Body', data.bdy);
       if (data.bdy.message) {
@@ -116,10 +116,10 @@
       // Write the typed message.
       //
       ws.send(JSON.stringify({
-        bdy: {message: echo.value},
+        bdy: JSON.parse(echo.value),
         to: "quizzer:/",
         mid: uuid(),
-        frm: 'client:/',
+        frm: clientId + '@client:/',
         ts: new Date(),
         typ: "message",
         ver: "UMF/1.4.3"

@@ -1,15 +1,15 @@
 'use strict';
 
 const hydraExpress = require('fwsp-hydra-express');
-const http = require('http');
-const WebSocket = require('ws');
-const uuid = require('uuid-v4')
 
 const config = require('./config/config.json');
+const classesApi = require('./classes');
+const classes = require('./data-sources/classes');
 
+// API end points
 hydraExpress.init(config.hydraExpress, () => {
     hydraExpress.registerRoutes({
-      '/greeting': require('./greeting')
+      '/classes': classesApi
     });
   })
   .then((serviceInfo) => {
@@ -19,38 +19,79 @@ hydraExpress.init(config.hydraExpress, () => {
     console.log('err', err);
   });
 
-var server = http.createServer(hydraExpress.getExpress());
 
-const wss = new WebSocket.Server({
-  server
-});
-
-wss.on('connection', function connection(ws) {
-  console.log('connected');
-  ws.on('message', function incoming(message) {
-    let incomingMessage = JSON.parse(message);
-    console.log('received:', message);
-    
-    ws.send(JSON.stringify({
-        bdy: {massage: incomingMessage.bdy.message},
-        to: incomingMessage.frm,
-        mid: uuid(),
-        frm: incomingMessage.to,
-        ts: new Date(),
-        // typ: "message",
-        ver: "UMF/1.4.3"
-      }));
-  });
-});
-
+// MQ end points
 const hydra = hydraExpress.getHydra();
 
-hydra.on('message', function(message) {
+hydra.on('message', (message) => {
   // message will be a UMF formatted object
   console.log(`Received object message: ${message.mid}: ${JSON.stringify(message)}`);
+  if (message.bdy && message.bdy.className) {
+    let response = classes.addTrainer(message.bdy.className, {connectionId: message.frm, via: message.via});
+    if (response instanceof Error) {
+      hydra.sendReplyMessage(message, hydra.createUMFMessage({
+        bdy: {
+          success: false,
+          message: response.message
+        }
+      }));
+    }
+    else {
+      hydra.sendReplyMessage(message, hydra.createUMFMessage({
+        bdy: {
+          success: true,
+          message: 'Successfully connected to class.',
+          class: response
+        }
+      }));
+      sendClassUpdate(message.bdy.className);
+    }
+  }
 
-  // to send a reply message here or elsewhere in your service use the `sendReplyMessage` call.
-  hydra.sendReplyMessage(message, hydra.createUMFMessage({
-    bdy: message.bdy
-  }));
+  if (message.bdy && message.bdy.signIn) {
+    let response = classes.addClassMember(message.bdy.signIn, {name: message.bdy.name, connectionId: message.frm, via: message.via});
+    if (response instanceof Error) {
+      hydra.sendReplyMessage(message, hydra.createUMFMessage({
+        bdy: {
+          success: false,
+          message: response.message
+        }
+      }));
+    }
+    else {
+      hydra.sendReplyMessage(message, hydra.createUMFMessage({
+        bdy: {
+          success: true,
+          message: 'Successfully added to class.'
+        }
+      }));
+      sendClassUpdate(response);
+    }
+  }
 });
+
+const sendClassUpdate = (className) => {
+  let currentClass = classes.get(className);
+  console.log('Send class update:', currentClass);
+  if (currentClass) {
+    currentClass.trainers.forEach((trainer) => {
+      let message = hydra.createUMFMessage({
+        to: trainer.via,
+        via: trainer.via,
+        frm: hydra.getInstanceID() + '@' + hydra.getServiceName() + ':/',
+        bdy: {
+          success: true,
+          message: className + ' updated.',
+          class: currentClass
+        }
+      });
+      
+      console.log('Update message:', message);
+      hydra.sendMessage(message).then(result => {
+        console.log('Update message success', result);
+      }, err => {
+        console.error('Update message failure', err);
+      });
+    });
+  }
+};

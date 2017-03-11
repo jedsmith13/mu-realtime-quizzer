@@ -33,8 +33,9 @@ hydra.on('message', (message) => {
       return sendQuiz(message, message.bdy.className, message.bdy.quizId);
     }
 
-    if (message.typ === 'recieveAnswer' && message.bdy.quizId && message.bdy.classMemberId && message.bdy.answer) {
-      return receiveAnswer(message, message.bdy.quizId, message.bdy.classMemberId, message.bdy.answer);
+    if (message.typ === 'recieveAnswer' && message.bdy.quizId && message.bdy.answer) {
+      //TODO: extract classMemberId from the frm
+      return receiveAnswer(message, message.bdy.quizId, message.frm, message.bdy.answer);
     }
 
     if (message.typ === 'broadcastResults' && message.bdy.quizId && message.bdy.answer) {

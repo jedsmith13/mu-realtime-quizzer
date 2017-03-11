@@ -1,15 +1,19 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
+import { Router } from '@angular/router';
+import { ClassService } from '../class.service';
 
 @Component({
   selector: 'app-class-create',
+  providers: [classService],
   templateUrl: './class-create.component.html',
   styleUrls: ['./class-create.component.css']
 })
-export class ClassCreateComponent implements OnInit {
+export class ClassCreateComponent {
 
-  constructor() { }
+  constructor(private classService: ClassService, private router: Router) { }
 
-  ngOnInit() {
-  }
-
+  public createClass = (className: string) => {
+    classService.create(className)
+    this.router.navigate([`/trainer/class/${className}`]);
+  };
 }

@@ -7,13 +7,18 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 };
 var core_1 = require('@angular/core');
 var ClassCreateComponent = (function () {
-    function ClassCreateComponent() {
+    function ClassCreateComponent(classService, router) {
+        this.classService = classService;
+        this.router = router;
+        this.createClass = function (className) {
+            classService.
+                this.router.navigate([("/trainer/class/" + className)]);
+        };
     }
-    ClassCreateComponent.prototype.ngOnInit = function () {
-    };
     ClassCreateComponent = __decorate([
         core_1.Component({
             selector: 'app-class-create',
+            providers: [classService],
             templateUrl: './class-create.component.html',
             styleUrls: ['./class-create.component.css']
         })

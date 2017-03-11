@@ -7,7 +7,35 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 };
 var core_1 = require('@angular/core');
 var QuizComponent = (function () {
-    function QuizComponent() {
+    function QuizComponent(wsCommunicatorService) {
+        this.wsCommunicatorService = wsCommunicatorService;
+        this.sendQuiz = function (quizId, className) {
+            wsCommunicatorService.sendQuiz.subscribe(function (msg) {
+                console.log("next", msg.data);
+            }, function (msg) {
+                console.log("error", msg);
+            }, function () {
+                console.log("complete");
+            });
+        };
+        this.closeQuiz = function (quizId, answer) {
+            wsCommunicatorService.closeQuiz.subscribe(function (msg) {
+                console.log("next", msg.data);
+            }, function (msg) {
+                console.log("error", msg);
+            }, function () {
+                console.log("complete");
+            });
+        };
+        this.answerQuestion = function (quizId, answer) {
+            wsCommunicatorService.closeQuiz.subscribe(function (msg) {
+                console.log("next", msg.data);
+            }, function (msg) {
+                console.log("error", msg);
+            }, function () {
+                console.log("complete");
+            });
+        };
     }
     QuizComponent.prototype.ngOnInit = function () {
     };

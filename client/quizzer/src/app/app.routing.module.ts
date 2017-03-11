@@ -5,7 +5,7 @@ const appRoutes: Routes = [
   { path: '', redirectTo: '/connect', pathMatch: 'full' }
 ];
 
-e@NgModule({
+@NgModule({
   imports: [
     RouterModule.forRoot(appRoutes)
   ],

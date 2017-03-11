@@ -4,14 +4,22 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 
+import { Class } from '../class';
+
 @Injectable()
 export class ClassService {
+
+  public currentClass: Class;
 
   constructor(private http: Http) { }
 
   public create(className: string): Observable<string[]> {
     return this.http.post(`/class`, {className: className})
-      .map((res: Response) => res.json())
+      .map((res: Response) => {
+        const newClass: Class = res.json();
+        this.currentClass = newClass;
+        return newClass;
+      })
       .catch(this.handleError);
   }
   

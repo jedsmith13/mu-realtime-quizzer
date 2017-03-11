@@ -8,10 +8,10 @@ export class WsCommunicatorService {
   
   constructor() {
       
-    ws = $WebSocket('wss://mu-auth-adventure-jedsmithobd.c9users.io');
+    this.ws = new $WebSocket('wss://mu-auth-adventure-jedsmithobd.c9users.io');
     
     // Collect clientId from body of fist request.
-    ws.onMessage(
+    this.ws.onMessage(
       (msg: MessageEvent)=> {
         console.log("onMessage ", msg.data);
       },
@@ -31,7 +31,7 @@ export class WsCommunicatorService {
       }
     });
   
-    return ws.send(message);
+    return this.ws.send(message);
   }
 
   public closeQuiz = (quizId: string, answer: string) => {
@@ -46,7 +46,7 @@ export class WsCommunicatorService {
       }
     });
   
-    return ws.send(message);
+    return this.ws.send(message);
   }
 
   public answerQuestion = (quizId: string, answer: string) => {
@@ -61,7 +61,33 @@ export class WsCommunicatorService {
       }
     });
   
-    return ws.send(message);
+    return this.ws.send(message);
   }
+
+  public joinClass = (signIn: string) => {
+    
+    let message = UMFMessage.createMessage({
+      to: `class:/`,
+      from: 'client:/',
+      body: {
+        signIn: signIn
+      }
+    });
+  
+    return this.ws.send(message);
+  };
+
+  public trackClass = (className: string) => {
+    
+    let message = UMFMessage.createMessage({
+      to: `class:/`,
+      from: 'client:/',
+      body: {
+        className: className
+      }
+    });
+  
+    return this.ws.send(message);
+  };
 
 }

@@ -1,3 +1,12 @@
-<p>
-  quiz works!
-</p>
+<div>
+  <quizzer-trainer-class></quizzer-trainer-class>
+  <quizzer-trainer-quiz-create></quizzer-trainer-quiz-create>
+  <div *ngFor="let quiz in quizzes">
+    <pre>
+      {{quiz | json}}
+    </pre>
+    <button (click)="sendQuiz(quiz.id)">Start</button>
+    <input type="text" [(ngModel)]="quiz.answer">
+    <button (click)="closeQuiz(quiz.id, quiz.answer)">Close</button>
+  </div>
+</div>

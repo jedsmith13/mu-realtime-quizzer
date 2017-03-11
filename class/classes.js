@@ -15,7 +15,7 @@ api.post('/', (req, res) => {
     let className = req.body.className;
     let activeClass = classes.get(className);
     if (activeClass) {
-      return hydraExpress.sendResponse(HTTP_OK, res, {
+      return hydraExpress.sendResponse(201, res, {
         result: {
           success: true,
           status: 'existing',

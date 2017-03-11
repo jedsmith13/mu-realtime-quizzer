@@ -8,6 +8,7 @@ let classes = {};
 // Create a new class
 const create = (className) => {
     return classes[className] = {
+      className: className,
       signIn: shortid.generate(),
       classMembers: [],
       trainers: []

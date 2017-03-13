@@ -6,19 +6,22 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 var core_1 = require('@angular/core');
-var ConnectComponent = (function () {
-    function ConnectComponent(classService) {
+var class_service_1 = require('../class.service');
+var ClassComponent = (function () {
+    function ClassComponent(classService) {
         this.classService = classService;
     }
-    ConnectComponent.prototype.ngOnInit = function () {
+    ClassComponent.prototype.ngOnInit = function () {
+        this.currentClass = this.classService.currentClass;
     };
-    ConnectComponent = __decorate([
+    ClassComponent = __decorate([
         core_1.Component({
-            selector: 'app-connect',
-            templateUrl: './connect.component.html',
-            styleUrls: ['./connect.component.css']
+            selector: 'quizzer-trainer-class',
+            providers: [class_service_1.ClassService],
+            templateUrl: './class.component.html',
+            styleUrls: ['./class.component.css']
         })
-    ], ConnectComponent);
-    return ConnectComponent;
+    ], ClassComponent);
+    return ClassComponent;
 }());
-exports.ConnectComponent = ConnectComponent;
+exports.ClassComponent = ClassComponent;

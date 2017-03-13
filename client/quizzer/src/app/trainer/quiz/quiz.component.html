@@ -1,7 +1,7 @@
 <div>
   <quizzer-trainer-class></quizzer-trainer-class>
   <quizzer-trainer-quiz-create></quizzer-trainer-quiz-create>
-  <div *ngFor="let quiz in quizzes">
+  <div *ngFor="let quiz of quizzes">
     <pre>
       {{quiz | json}}
     </pre>

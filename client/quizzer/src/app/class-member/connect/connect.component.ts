@@ -7,7 +7,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ConnectComponent implements OnInit {
 
-  constructor(private classService: ClassService) { }
+  constructor() { }
 
   ngOnInit() {
   }

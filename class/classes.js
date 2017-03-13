@@ -10,7 +10,7 @@ const HTTP_OK = 200;
  * @description Create the question.
  * @param {function} route handler
  */
-api.post('/', (req, res) => {
+api.post('', (req, res) => {
   if (req.body.className) {
     let className = req.body.className;
     let activeClass = classes.get(className);
@@ -48,7 +48,7 @@ api.post('/', (req, res) => {
  * @description Provide a form for asking the question.
  * @param {function} route handler
  */
-api.get('/', (req, res) => {
+api.get('', (req, res) => {
   if (req.body.className) {
     let className = req.body.className;
     let activeClass = classes.get(className);

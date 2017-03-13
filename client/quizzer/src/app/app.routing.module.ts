@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 const appRoutes: Routes = [
-  { path: '', redirectTo: '/connect', pathMatch: 'full' }
+  { path: '', redirectTo: 'connect', pathMatch: 'full' }
 ];
 
 @NgModule({

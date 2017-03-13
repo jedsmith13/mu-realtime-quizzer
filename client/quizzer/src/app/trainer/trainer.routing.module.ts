@@ -3,15 +3,15 @@ import { RouterModule, Routes } from '@angular/router';
 import { ClassCreateComponent } from './class-create/class-create.component';
 import { QuizComponent } from './quiz/quiz.component';
 
-const heroesRoutes: Routes = [
+const trainerRoutes: Routes = [
   { path: 'trainer/class/create', component: ClassCreateComponent },
   { path: 'trainer/quiz', component: QuizComponent },
-  { path: 'trainer', redirectTo: 'trainer/class/create', pathMatch: 'fullPath' }
+  { path: 'trainer', redirectTo: 'trainer/class/create', pathMatch: 'full' }
 ];
 
 @NgModule({
   imports: [
-    RouterModule.forChild(heroesRoutes)
+    RouterModule.forChild(trainerRoutes)
   ],
   exports: [
     RouterModule

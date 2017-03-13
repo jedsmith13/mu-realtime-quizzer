@@ -9,7 +9,7 @@ import { WsCommunicatorService } from '../../ws-communicator.service';
 })
 export class ClassComponent implements OnInit {
 
-  constructor() { }
+  constructor(private wsCommunicatorService: WsCommunicatorService) { }
 
   ngOnInit() {
   }

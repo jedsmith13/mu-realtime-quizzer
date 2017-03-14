@@ -9,7 +9,7 @@ const classes = require('./class/classes-data-store');
 // API end points
 hydraExpress.init(config.hydraExpressClass, () => {
     hydraExpress.registerRoutes({
-      '': classesApi
+      'class': classesApi
     });
   })
   .then((serviceInfo) => {

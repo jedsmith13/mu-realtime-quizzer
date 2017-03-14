@@ -26,5 +26,20 @@
                 "db": 0
             }
         }
+    },
+   "hydraExpressStatic": {
+        "hydra": {
+            "serviceName": "",
+            "serviceDescription": "Mu Realtime Quizzer - Static Files",
+            "serviceIP": "",
+            "servicePort": 3115,
+            "serviceType": "class",
+            "redis": {
+                "url": "",
+                "port": 6379,
+                "db": 0
+            }
+        }
     }
+
 }

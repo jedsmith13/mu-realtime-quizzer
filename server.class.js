@@ -128,6 +128,7 @@ const sendClassUpdate = (className) => {
             let message = hydra.createUMFMessage({
                 to: trainer.via,
                 via: trainer.via,
+                typ: 'classUpdate',
                 frm: hydra.getInstanceID() + '@' + hydra.getServiceName() + ':/',
                 bdy: {
                     success: true,

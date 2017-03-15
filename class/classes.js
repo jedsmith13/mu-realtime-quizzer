@@ -11,9 +11,7 @@ const HTTP_OK = 200;
  * @param {function} route handler
  */
 api.post('', (req, res) => {
-    console.log('New class', req.body.className);
     if (req.body.className) {
-        console.log('New class', req.body.className);
         let className = req.body.className;
         let activeClass = classes.get(className);
         if (activeClass) {
@@ -51,7 +49,6 @@ api.post('', (req, res) => {
  * @param {function} route handler
  */
 api.get('', (req, res) => {
-    console.log('Get class', req.body.className);
     if (req.body.className) {
         let className = req.body.className;
         let activeClass = classes.get(className);

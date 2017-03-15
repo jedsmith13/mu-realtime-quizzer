@@ -4,7 +4,6 @@ import { Class } from '../../class';
 
 @Component({
   selector: 'quizzer-trainer-class',
-  providers: [ClassService],
   templateUrl: './class.component.html',
   styleUrls: ['./class.component.css']
 })

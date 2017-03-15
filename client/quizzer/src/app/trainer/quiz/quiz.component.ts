@@ -9,7 +9,6 @@ import { Quiz } from '../../quiz';
 
 @Component({
     selector: 'app-quiz',
-    providers: [WsCommunicatorService, QuizService, ClassService],
     templateUrl: './quiz.component.html',
     styleUrls: ['./quiz.component.css']
 })
@@ -28,12 +27,9 @@ export class QuizComponent implements OnInit {
 
     ngOnInit() {
         // If we don't already have a class then go to the class create page.
-        if (this.classService.currentClass) {
+        if (!this.classService.currentClass) {
             this.router.navigate([`/trainer/class/create`]);
         }
-
-        // Save the current classes className for use in sending quizzes.
-        this.currentClassName = this.classService.currentClass.className;
 
         this.quizService.get().subscribe(
             (quizzes: Quiz[]) => { this.quizzes = quizzes; },
@@ -42,7 +38,7 @@ export class QuizComponent implements OnInit {
     }
 
     public sendQuiz = (quizId: string) => {
-        this.wsCommunicatorService.sendQuiz(quizId, this.currentClassName).subscribe(
+        this.wsCommunicatorService.sendQuiz(quizId, this.classService.currentClass.className).subscribe(
             (msg) => {
                 console.log("next", msg.data);
             },

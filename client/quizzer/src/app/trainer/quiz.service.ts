@@ -14,7 +14,7 @@ export class QuizService {
   constructor(private http: Http) { }
 
   public create(question: Question): Observable<Quiz> {
-    return this.http.post(`/quiz`, question)
+    return this.http.post(`http://localhost:5353/question`, question)
       .map((res: Response) => {
         const quiz = res.json();
         this.quizzes.push(quiz);
@@ -24,7 +24,7 @@ export class QuizService {
   }
 
   public get(): Observable<Quiz[]> {
-    return this.http.get(`/quiz`)
+    return this.http.get(`http://localhost:5353/question`)
       .map((res: Response) => {
         const quizzes: Quiz[] = res.json();
         this.quizzes.length = 0;

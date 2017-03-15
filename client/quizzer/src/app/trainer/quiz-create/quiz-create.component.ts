@@ -4,7 +4,6 @@ import { QuizService } from '../quiz.service';
 
 @Component({
   selector: 'quizzer-trainer-quiz-create',
-  providers: [QuizService],
   templateUrl: './quiz-create.component.html',
   styleUrls: ['./quiz-create.component.css']
 })

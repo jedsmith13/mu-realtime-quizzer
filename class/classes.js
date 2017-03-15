@@ -11,36 +11,38 @@ const HTTP_OK = 200;
  * @param {function} route handler
  */
 api.post('', (req, res) => {
-  if (req.body.className) {
-    let className = req.body.className;
-    let activeClass = classes.get(className);
-    if (activeClass) {
-      return hydraExpress.sendResponse(201, res, {
-        result: {
-          success: true,
-          status: 'existing',
-          class: activeClass
+    console.log('New class', req.body.className);
+    if (req.body.className) {
+        console.log('New class', req.body.className);
+        let className = req.body.className;
+        let activeClass = classes.get(className);
+        if (activeClass) {
+            return hydraExpress.sendResponse(201, res, {
+                result: {
+                    success: true,
+                    status: 'existing',
+                    class: activeClass
+                }
+            });
         }
-      });
+
+        activeClass = classes.create(className);
+
+        return hydraExpress.sendResponse(HTTP_OK, res, {
+            result: {
+                success: true,
+                status: 'new',
+                class: activeClass
+            }
+        });
     }
 
-    activeClass = classes.create(className);
-    
-    return hydraExpress.sendResponse(HTTP_OK, res, {
-      result: {
-        success: true,
-        status: 'existing',
-        class: activeClass
-      }
+    hydraExpress.sendResponse(400, res, {
+        result: {
+            success: false,
+            message: 'Please include a className'
+        }
     });
-  }
-
-  hydraExpress.sendResponse(400, res, {
-    result: {
-      success: false, 
-      message: 'Please include a className'
-    }
-  });
 });
 
 
@@ -49,26 +51,27 @@ api.post('', (req, res) => {
  * @param {function} route handler
  */
 api.get('', (req, res) => {
-  if (req.body.className) {
-    let className = req.body.className;
-    let activeClass = classes.get(className);
-    if (activeClass) {
-      return hydraExpress.sendResponse(HTTP_OK, res, {
-        result: {
-          success: true,
-          status: 'existing',
-          class: activeClass
+    console.log('Get class', req.body.className);
+    if (req.body.className) {
+        let className = req.body.className;
+        let activeClass = classes.get(className);
+        if (activeClass) {
+            return hydraExpress.sendResponse(HTTP_OK, res, {
+                result: {
+                    success: true,
+                    status: 'existing',
+                    class: activeClass
+                }
+            });
         }
-      });
-    }
 
-    return hydraExpress.sendResponse(HTTP_OK, res, {
-      result: {
-        success: false,
-        message: 'Does not exist'
-      }
-    });
-  }
+        return hydraExpress.sendResponse(HTTP_OK, res, {
+            result: {
+                success: false,
+                message: 'Does not exist'
+            }
+        });
+    }
 });
 
 module.exports = api;

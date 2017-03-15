@@ -8,7 +8,7 @@ export class WsCommunicatorService {
   
   constructor() {
       
-    this.ws = new $WebSocket('wss://mu-auth-adventure-jedsmithobd.c9users.io');
+    this.ws = new $WebSocket('ws://localhost');
     
     // Collect clientId from body of fist request.
     this.ws.onMessage(

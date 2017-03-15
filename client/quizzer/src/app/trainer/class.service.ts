@@ -14,7 +14,7 @@ export class ClassService {
   constructor(private http: Http) { }
 
   public create(className: string): Observable<string[]> {
-    return this.http.post(`/class`, {className: className})
+    return this.http.post(`http://localhost:5353/classes`, {className: className})
       .map((res: Response) => {
         const newClass: Class = res.json();
         this.currentClass = newClass;

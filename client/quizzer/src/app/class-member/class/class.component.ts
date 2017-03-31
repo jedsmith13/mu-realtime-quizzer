@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { WsCommunicatorService } from '../../ws-communicator.service';
+import { ClassModel } from "./class.model";
+import { DynamicFormControlModel, DynamicFormService } from "@ng2-dynamic-forms/core";
 
 @Component({
   selector: 'app-class',
@@ -9,7 +11,16 @@ import { WsCommunicatorService } from '../../ws-communicator.service';
 })
 export class ClassComponent implements OnInit {
 
-  constructor(private wsCommunicatorService: WsCommunicatorService) { }
+    formModel: DynamicFormControlModel[] = ClassModel;
+    formGroup: FormGroup;
+
+    constructor() {}
+
+    ngOnInit() {
+        this.formGroup = this.formService.createFormGroup(this.formModel);
+    }
+
+  constructor(private wsCommunicatorService: WsCommunicatorService, private formService: DynamicFormService) { }
 
   ngOnInit() {
   }
